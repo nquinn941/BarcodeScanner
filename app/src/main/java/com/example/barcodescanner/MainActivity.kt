@@ -75,7 +75,8 @@ class MainActivity : AppCompatActivity() {
                 waitingDialog.show()
                 var bitmap = cameraKitImage.bitmap
                 bitmap = Bitmap.createScaledBitmap(bitmap, cameraView.width, cameraView.height, false)
-                cameraView.stop()
+                //cameraView.stop()
+                onPause()
 
                 runDetector(bitmap)
             }
@@ -89,7 +90,7 @@ class MainActivity : AppCompatActivity() {
     private fun runDetector(bitmap: Bitmap) {
         val image = FirebaseVisionImage.fromBitmap(bitmap)
         val options = FirebaseVisionBarcodeDetectorOptions.Builder()
-                .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_EAN_13).build()
+                .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_ALL_FORMATS).build()
 
         val detector = FirebaseVision.getInstance().getVisionBarcodeDetector(options)
 
@@ -122,5 +123,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         waitingDialog.dismiss()
+        onResume()
     }
 }
